@@ -1,19 +1,20 @@
-import { endpoints } from '../Constants';
+import { endpoints } from './Constants';
+// @ts-ignore
 import * as c from '@aero/centra';
 
 const { baseUrl } = endpoints;
 
 const headers = {
-	'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36',
+	'User-agent': '',
 	Accept: 'application/json',
 	'Auth': ''
 };
 
-const setToken = (authToken) => {
+const setToken = (authToken: string) => {
 	headers['Auth'] = authToken;
 };
 
-const req = async (route, method, body) => {
+const req = async (route: string, method: string, body: any): Promise<any> => {
 	route = baseUrl + route;
 	const fetch = c(route, method);
 	fetch.reqHeaders = headers;
@@ -32,13 +33,13 @@ const req = async (route, method, body) => {
 	}
 };
 
-const get = async (route) => await req(route, '', '');
+const get = async (route: string) => await req(route, '', '');
 
-const post = async (route, body) => await req(route, 'POST', body);
+const post = async (route: string, body: any) => await req(route, 'POST', body);
 
-const put = async (route, body) => await req(route, 'PUT', body);
+const put = async (route: string, body: any) => await req(route, 'PUT', body);
 
-const del = async (route) => await req(route, 'DELETE', '');
+const del = async (route: string) => await req(route, 'DELETE', '');
 
 export default {
 	setToken,
