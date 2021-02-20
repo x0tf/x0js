@@ -1,4 +1,4 @@
-import namespace from './namespace';
+import namespace from './NamespaceManager';
 import redirect from './redirect';
 import paste from './paste';
 
