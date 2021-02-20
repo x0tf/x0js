@@ -1,15 +1,15 @@
 import { Client } from './../index';
-import { ArrowFunction } from "typescript";
 
 interface CallbackFunc { (response: string): void }
 
 /**
  * @class namespace
  */
-export default class namespace extends Client {
-    constructor () {
-        super("a")
-        console.log(this._tokens)
+export default class namespace {
+    private _tokens: Map<string, string>;
+    constructor (tokens: Map<string, string>) {
+        this._tokens = tokens;
+        console.log(this._tokens);
     }
 
     /**

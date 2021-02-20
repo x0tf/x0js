@@ -8,7 +8,7 @@ export class Client {
         }
     */
     _tokens: Map<string, string>;
-    elements: { namespace: typeof namespace; };
+    elements: { namespace: namespace; };
    
     constructor(tokens:any) {
         this._tokens = new Map();
@@ -20,7 +20,7 @@ export class Client {
         if (typeof tokens === 'object') for (const namespace in tokens) this._tokens.set(namespace, tokens[namespace])
 
         this.elements = {
-            namespace
+            namespace: new namespace(this._tokens),
         };
     }
 }
