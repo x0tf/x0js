@@ -1,24 +1,25 @@
-import { endpoints } from './Constants';
-// @ts-ignore
-import * as c from '@aero/centra';
+/**
+ * @file http.ts
+ * @fileoverview http request method(s), kindly stolen from https://github.com/rednit-team/tinder.js
+ */
 
-const { baseUrl } = endpoints;
+
+// @ts-ignore
+import c from '@aero/centra';
+import { endpoints } from './Constants';
 
 const headers = {
-	'User-agent': '',
-	Accept: 'application/json',
-	'Auth': ''
+	'User-agent': 'x0js/"https://github.com/x0tf/x0js"',
+	'Authorization': ''
 };
 
-const setToken = (authToken: string) => {
-	headers['Auth'] = authToken;
-};
-
-const req = async (route: string, method: string, body: any): Promise<any> => {
-	route = baseUrl + route;
-	const fetch = c(route, method);
+const req = async (token: string, route: string, method: string, body: any): Promise<any> => {
+	const URL = endpoints.ApiBaseUrl + route;
+	const fetch = c(URL, method);
+	headers['Authorization'] = `Bearer ${token}`
 	fetch.reqHeaders = headers;
 	const res = await fetch.body(body).send();
+	console.log(res)
 	if (res.statusCode >= 200 && res.statusCode < 300) {
 		try {
 			return res.json;
@@ -29,20 +30,20 @@ const req = async (route: string, method: string, body: any): Promise<any> => {
 		throw res.text;
 	} else {
 		console.log(`reattempting, status code: ${res.statusCode}`);
-		return await req(route, method, body);
+		// TODO: find a better way to do this
+		return await req(token, route, method, body);
 	}
 };
 
-const get = async (route: string) => await req(route, '', '');
+const get = async (token: string, route: string) => await req(token, route, '', '');
 
-const post = async (route: string, body: any) => await req(route, 'POST', body);
+const post = async (token: string, route: string, body?: any) => await req(token, route, 'POST', body);
 
-const put = async (route: string, body: any) => await req(route, 'PUT', body);
+const put = async (token: string, route: string, body: any) => await req(token, route, 'PUT', body);
 
-const del = async (route: string) => await req(route, 'DELETE', '');
+const del = async (token: string, route: string) => await req(token, route, 'DELETE', '');
 
 export default {
-	setToken,
 	get,
 	post,
 	put,

@@ -1,33 +1,36 @@
-import elements from './elements/elements';
 import NamespaceManager from './elements/NamespaceManager';
+import RedirectManager from './elements/RedirectManager';
+import PasteManager from "./elements/PasteManager";
+import {AuthToken} from "./@interfaces/AuthToken";
+import {endpoints} from "./util/Constants";
+import {errorHandler} from "./util/errors";
+import http from "./util/http";
 
 export class Client {
-    /* tokens is an object like this:
-        tokens: {
-            'examplenamespace': 'exampletoken'
-        }
-    */
-    _tokens: Map<string, string>;
-    elements: typeof elements;
-    
+
+    deleteElement: (token: AuthToken, namespace: string, key: string) => Promise<any>;
+    namespace: typeof NamespaceManager;
+    redirect: typeof RedirectManager;
+    paste: typeof  PasteManager;
+
    
-    constructor(tokens:any) {
-        this._tokens = new Map();
-        /*  if we get a valid tokenobject from the user
-            we set the tokens to our internal token map
-            if not, the user probably wants to either 
-            register a new token later or i dont know,
-            the plan is, to pass this tokenMap into each
-            element class when instantiating it here, but
-            the tokens should be optional, so keep in mind
-            to have an optional token parameter on each method
+    constructor() {
 
-            ^^^ Forget this shit, gonna make this library stateless
-        */
-        if (typeof tokens === 'object') for (const namespace in tokens) this._tokens.set(namespace, tokens[namespace])
-
-        this.elements = elements
+        this.namespace = NamespaceManager;
+        this.redirect = RedirectManager;
+        this.paste = PasteManager;
+        // @ts-ignore
+        this.deleteElement = (... args: any) => Client.deleteElement(... args);
     }
+
+    static async deleteElement(token: AuthToken, namespace: string, key: string): Promise<any> {
+        try {
+            return (await http.delete(token, endpoints.Element.replace("%%namespace%%", namespace).replace("%%key%%", key))).status === 200;
+        } catch (e) {
+            errorHandler(e)
+            return false;
+        }
+    };
     
 
 }
