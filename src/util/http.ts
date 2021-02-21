@@ -19,7 +19,6 @@ const req = async (token: string, route: string, method: string, body: any): Pro
 	headers['Authorization'] = `Bearer ${token}`
 	fetch.reqHeaders = headers;
 	const res = await fetch.body(body).send();
-	console.log(res)
 	if (res.statusCode >= 200 && res.statusCode < 300) {
 		try {
 			return res.json;
