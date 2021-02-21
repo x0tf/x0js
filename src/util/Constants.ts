@@ -1,6 +1,7 @@
 export const endpoints = {
   BaseUrl: "https://x0.tf",
   ApiBaseUrl: "https://api.x0.tf",
+  StagingApiBaseUrl: "https://api.s.x0.tf",
 
   Info: "/v1/info",
 

@@ -10,7 +10,8 @@ export default class PasteManager {
      * @param token Auth token to interact with the given namespace
      * @param namespace the namespace where you want to create the paste element in
      * @param data the text you want to have inside the paste
-     * @param [key] custom key
+     * @param [key] custom key (optional)
+     * @returns {Promise<string | undefined>} the key where you can reach this element from now on
      */
     static async create(token: string, namespace: string, data: any, key?: string): Promise<string | undefined> {
         try {
@@ -25,6 +26,6 @@ export default class PasteManager {
 
 
     // @ts-ignore
-    static delete = async (... args: any): Promise<boolean> => Client.deleteElement(... args)
+    static delete = async (token: AuthToken, namespace: string, key: string): Promise<boolean> => Client.deleteElement(token, namespace, key)
 
 }

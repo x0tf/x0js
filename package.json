@@ -6,7 +6,7 @@
   "types": "dist",
   "scripts": {
     "pretest": "npm run build",
-    "test": "nyc mocha",
+    "test": "nyc mocha --timeout 61000",
     "cov": "nyc mocha",
     "release": "standard-version",
     "commit": "cz",

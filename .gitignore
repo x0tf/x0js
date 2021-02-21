@@ -4,3 +4,4 @@ dist
 .idea
 .nyc_output
 index.js
+coverage

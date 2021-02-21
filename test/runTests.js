@@ -1,17 +1,26 @@
 const assert = require('chai').assert;
-
+const { expect } = require('chai');
+const { checkIfRedirect } = require('./util');
 const { Client } = require('../dist/index');
 const x0 = new Client;
 
 let token;
-let namespace = 'mochatest5'
+let namespace = 'mochatest10'
+
+function Sleep(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+ }
 
 describe('Namespace Manager', () => {
   describe('Creating Namespaces', () => {
-    it('Token should be a string', async () => {
+
+
+
+    it('Creating a new namespace should return a string', async () => {
       let testToken = await x0.namespace.create(namespace);
       console.log(testToken)
       if (testToken) token = testToken
+      expect(typeof token).to.equal('string');
       assert.typeOf(testToken, 'string')
     })
 
@@ -26,7 +35,9 @@ describe('Namespace Manager', () => {
     })  
   });
   
-  describe('Listing elements', () => {
+  describe('Listing elements', function () {
+    // setting the tiomeout to 69 seconds because of rate limits yknow
+    this.timeout(69000);
     // it('Namespace Elements should be an empty array', async () => {
     //   let res = await x0.namespace.getAll(token, namespace)
     //   console.log(res)
@@ -37,10 +48,8 @@ describe('Namespace Manager', () => {
       assert.equal(res, 'test')
     })
     // FIXME: rate limits are causing this test to fail
-    it('Namespace should now have at least one elemnt', async () => {
-      let res = await x0.namespace.getAll(token, namespace)
-      console.log(res)
-      assert.isAtLeast(res.length, 1);
+    it('Check if redirect was created properly)', async () => {
+      expect(await checkIfRedirect(namespace, 'test')).to.be.true;
     })
   });
 

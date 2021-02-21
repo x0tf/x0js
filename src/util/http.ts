@@ -13,7 +13,9 @@ const headers = {
 	'Authorization': ''
 };
 
-const req = async (token: string, route: string, method: string, body: any): Promise<any> => {
+const req = async (token: string | null, route: string, method: string, body: any): Promise<any> => {
+	// we are using this variable to measure the resonse time
+	const start = Date.now();
 	const URL = endpoints.ApiBaseUrl + route;
 	const fetch = c(URL, method);
 	headers['Authorization'] = `Bearer ${token}`
@@ -21,8 +23,13 @@ const req = async (token: string, route: string, method: string, body: any): Pro
 	const res = await fetch.body(body).send();
 	if (res.statusCode >= 200 && res.statusCode < 300) {
 		try {
+			if (token === 'ping') {
+				let p = res.json;
+				p['responseTime'] = Date.now() - start
+				return p;
+			}
 			return res.json;
-		} catch {
+		} catch (e) {
 			return { status: res.statusCode };
 		}
 	} else if (res.statusCode >= 400 && res.statusCode < 500) {
@@ -34,17 +41,17 @@ const req = async (token: string, route: string, method: string, body: any): Pro
 	}
 };
 
-const get = async (token: string, route: string) => await req(token, route, '', '');
+const get = async (token: string | null, route: string) => await req(token, route, '', '');
 
 const post = async (token: string, route: string, body?: any) => await req(token, route, 'POST', body);
 
-const put = async (token: string, route: string, body: any) => await req(token, route, 'PUT', body);
+// not needed at the moment
+// const put = async (token: string, route: string, body: any) => await req(token, route, 'PUT', body);
 
 const del = async (token: string, route: string) => await req(token, route, 'DELETE', '');
 
 export default {
 	get,
 	post,
-	put,
 	delete: del
 };

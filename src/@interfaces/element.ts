@@ -2,7 +2,7 @@ export default interface element {
     namespace: string;
     key: string;
     type: number;
-    data: any;
+    data: string;
 }
 
 export class Element {
@@ -13,8 +13,7 @@ export class Element {
     constructor(raw: any) {
         this.namespace = raw.namespace;
         this.key = raw.key;
-        // 0 - paste, 1 - redirect
-        this.type = raw.type === 0 ? 'paste' : 'redirect';
+        this.type = raw.type === 0 ? 'paste' : 'redirect'; // 0 - paste, 1 - redirect
         this.data = raw.data;
     }
 }

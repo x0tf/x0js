@@ -11,6 +11,7 @@ export default class RedirectManager {
      * @param namespace namespace where you want to create the redirect in
      * @param url target url where the redirect should point to
      * @param [key] custom key (optional)
+     * @return {Promise<string | undefined>} the key where you can reach this element from now on
      */
     static async create(token: string, namespace: string, url: string, key?: string) {
         try {
@@ -24,5 +25,5 @@ export default class RedirectManager {
     };
 
     // @ts-ignore
-    static delete = async (... args: any): Promise<boolean> => Client.deleteElement(... args)
+    static delete = async (token: AuthToken, namespace: string, key: string): Promise<boolean> => Client.deleteElement(token, namespace, key)
 }
