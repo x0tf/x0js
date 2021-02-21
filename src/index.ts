@@ -5,20 +5,23 @@ import {AuthToken} from "./@interfaces/AuthToken";
 import {endpoints} from "./util/Constants";
 import {errorHandler} from "./util/errors";
 import http from "./util/http";
+import ElementManager from './elements/ElementManager';
 
 export class Client {
 
     deleteElement: (token: AuthToken, namespace: string, key: string) => Promise<boolean>;
     serverInfo: () => Promise<any>; 
-    namespace: typeof NamespaceManager;
-    redirect: typeof RedirectManager;
-    paste: typeof  PasteManager;
+    // namespace: typeof NamespaceManager;
+    // redirect: typeof RedirectManager;
+    // paste: typeof  PasteManager;
+    elements: typeof ElementManager;
 
    
     constructor() {
-        this.paste = PasteManager;
-        this.redirect = RedirectManager;
-        this.namespace = NamespaceManager;
+        // this.paste = PasteManager;
+        // this.redirect = RedirectManager;
+        // this.namespace = NamespaceManager;
+        this.elements = ElementManager;
         this.serverInfo = () => Client.serverInfo();
         this.deleteElement = (token: AuthToken, namespace: string, key: string) => Client.deleteElement(token, namespace, key);
     }
@@ -32,8 +35,11 @@ export class Client {
      */
     static async deleteElement(token: AuthToken, namespace: string, key: string): Promise<boolean> {
         try {
-            return (await http.delete(token, endpoints.Element.replace("%%namespace%%", namespace).replace("%%key%%", key))).status === 200;
+            const res = await http.delete(token, endpoints.Element.replace("%%namespace%%", namespace).replace("%%key%%", key));
+            console.log(res);
+            return true;
         } catch (e) {
+            console.log(e)
             errorHandler(e)
             return false;
         }

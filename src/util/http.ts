@@ -3,7 +3,6 @@
  * @fileoverview http request method(s), kindly stolen from https://github.com/rednit-team/tinder.js
  */
 
-
 // @ts-ignore
 import c from '@aero/centra';
 import { endpoints } from './Constants';
@@ -13,14 +12,16 @@ const headers = {
 	'Authorization': ''
 };
 
-const req = async (token: string | null, route: string, method: string, body: any): Promise<any> => {
-	// we are using this variable to measure the resonse time
+const req = async (token: string | null, route: string, method: string, body?: any): Promise<any> => {
+	console.log(route)
+	// we are using the start variable to measure the response time
 	const start = Date.now();
 	const URL = endpoints.ApiBaseUrl + route;
 	const fetch = c(URL, method);
 	headers['Authorization'] = `Bearer ${token}`
 	fetch.reqHeaders = headers;
 	const res = await fetch.body(body).send();
+	console.log(res)
 	if (res.statusCode >= 200 && res.statusCode < 300) {
 		try {
 			if (token === 'ping') {
@@ -41,14 +42,14 @@ const req = async (token: string | null, route: string, method: string, body: an
 	}
 };
 
-const get = async (token: string | null, route: string) => await req(token, route, '', '');
+const get = async (token: string | null, route: string) => await req(token, route, 'GET');
 
 const post = async (token: string, route: string, body?: any) => await req(token, route, 'POST', body);
 
 // not needed at the moment
 // const put = async (token: string, route: string, body: any) => await req(token, route, 'PUT', body);
 
-const del = async (token: string, route: string) => await req(token, route, 'DELETE', '');
+const del = async (token: string, route: string) => await req(token, route, 'DELETE');
 
 export default {
 	get,

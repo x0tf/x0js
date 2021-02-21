@@ -1,4 +1,4 @@
-import { Element } from "../@interfaces/element";
+import { Element } from "../@interfaces/Element";
 import { errorHandler } from '../util/errors';
 import { endpoints } from '../util/Constants';
 import http from '../util/http';

@@ -1,0 +1,1 @@
+export type ElementType = 0 | 1 | 'paste' | 'redirect';

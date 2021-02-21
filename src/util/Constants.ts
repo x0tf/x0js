@@ -12,6 +12,7 @@ export const endpoints = {
   NamespaceActivate: "/v1/namespaces/%%namespace%%/activate",
   NamespaceElements: "/v1/elements/%%namespace%%", // GET
   Element: "/v1/elements/%%namespace%%/%%key%%", // GET // DELETE to delete
+  CreateElement: "/v1/elements/%%namespace%%/%%element%%/%%key%%",
   CreatePasteElement: "/v1/elements/%%namespace%%/paste/%%key%%",
   CreateRedirectElement: "/v1/elements/%%namespace%%/redirect/%%key%%",
 };
