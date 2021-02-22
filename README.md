@@ -1,5 +1,7 @@
 # x0js
 
+[![Test](https://github.com/x0tf/x0js/actions/workflows/test.yml/badge.svg)](https://github.com/x0tf/x0js/actions/workflows/test.yml)
+
 ## Getting started
 
 ```js
