@@ -17,12 +17,27 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "link-shortener",
+    "pastes",
+    "sharing",
+    "x0",
+    "x0tf",
+    "x0.tf"
+  ],
+  "author": "MeerBiene",
+  "license": "MIT",
   "dependencies": {
     "@aero/centra": "^1.0.6"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x0tf/x0js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/x0tf/x0js/issues"
+  },
+  "homepage": "https://github.com/x0tf/x0js/#readme",
   "devDependencies": {
     "chai": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
