@@ -1,4 +1,4 @@
-import { ElementType } from '../@interfaces/ElementType';
+import { ElementType } from './../@interfaces/ElementType';
 import { endpoints } from '../util/Constants';
 import { AuthToken } from '../@interfaces/AuthToken';
 import { errorHandler } from '../util/errors';
@@ -7,6 +7,28 @@ import { Element } from '../@interfaces/Element';
 
 
 export default class ElementManager {
+    
+    /**
+     * @description gets the specified element and returns a new Element class
+     * @param token AuthToken to interact with the x0 api
+     * @param namespace namspace where the element is located
+     * @param key key for the element
+     */
+    static async get(token: AuthToken, namespace: string, key: string): Promise<Element | undefined> {
+        try {
+            return new Element((await http.get(token, endpoints.Element.replace('%%namespace%%', namespace).replace('%%key%%', key))))
+        } catch (e) {
+            errorHandler(e);
+        }
+    }
+
+
+
+    /**
+     * @description creates a new element and returns a new element class
+     * @param token AuthToken to interact with the x0 api
+     * @param {RawElement} options element options
+     */
     static async create(token: AuthToken,
     {
         elementtype,   

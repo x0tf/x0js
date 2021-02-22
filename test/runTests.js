@@ -1,16 +1,23 @@
 const { expect } = require('chai');
 const { checkIfRedirect } = require('./testUtils');
 const { Client } = require('../dist/index');
-const { x0ApiError } = require('../dist/util/errors');
+const { Element } = require('../dist/@interfaces/Element');
 const x0 = new Client;
 
 
-describe('Namespace Manager', () => {
+describe('x0jsunittest', () => {
   
   
   let token;
-  const namespace = 'x0jsunittest001'
+  let redirectelement;
+  const namespace = 'x0jsunittest002'
+  
 
+
+
+    it('The serverInfo() method should return an object with the keys: invites, production, version; where production is true', async () => {
+      expect(await x0.serverInfo()).to.have.property('production').that.is.true;
+    })
 
 
     it('Creating a new namespace should return a string', async () => {
@@ -20,7 +27,6 @@ describe('Namespace Manager', () => {
         if (testToken) token = testToken
         expect(typeof testToken).to.equal('string')  
       } catch(e) {
-        expect(e).to.be.instanceOf(x0ApiError);
         expect(e.message).to.equal('the given namespace ID is already taken');
       }
     })
@@ -31,26 +37,42 @@ describe('Namespace Manager', () => {
         if (anothertoken) token = anothertoken;
         expect(typeof anothertoken).to.equal('string');  
       } catch (e) {
-        expect(e).to.be.instanceOf(x0ApiError);
         expect(e.message).to.equal('the given namespace ID is already taken');
       }
     })  
   
-  
-  
-    // setting the tiomeout to 69 seconds because of rate limits yknow
-    // this.timeout(69000);
-    // it('Namespace Elements should be an empty array', async () => {
-    //   let res = await x0.namespace.getAll(token, namespace)
-    //   console.log(res)
-    //   assert.typeOf(res, 'array')
-    // })
-    it('Populating namespace with element called "Test"', async () => {
-      expect(await x0.redirect.create(token, namespace, 'https://x0.tf/', 'test')).to.equal('test');
+    it('Populating namespace with redirect element called "jsx0testredirect" and checking if the returned class is instance of element', async () => {
+      const newRedirectElement = await x0.elements.create(token, {
+        elementtype: 'redirect',
+        namespace,
+        data: 'https://github.com/x0tf/',
+        key: 'jsx0testredirect'
+      })
+      redirectelement = newRedirectElement;
+      console.log(`
+        ===============[CONSOLE OUPUT]===============
+      `)
+
+      console.log(newRedirectElement)
+      
+      console.log(`
+        ===============[CONSOLE OUPUT]===============
+      `)
+      expect(newRedirectElement).to.be.instanceOf(Element);
     })
 
-    it('Check if redirect was created properly)', async () => {
-      expect(await checkIfRedirect(namespace, 'test')).to.be.true;
+    it('Check if redirect was created properly, by requesting the link and checking the status code.', async () => {
+      expect(await checkIfRedirect(namespace, 'jsx0testredirect')).to.be.true;
+    })
+
+    it('Delete the previously created redirect elemnt "jsx0testredirect"', async () => {
+      expect(await redirectelement.delete(token)).to.be.true;
+    })
+
+
+
+    it('Deleting namespace should return true.', async () => {
+      expect(await x0.namespace.delete(token, namespace))
     })
 
 
