@@ -1,21 +1,24 @@
+import { AuthToken } from "../@interfaces/AuthToken";
+import Namespace from "../@interfaces/Namespace";
 import { Element } from "../@interfaces/Element";
 import { errorHandler } from '../util/errors';
 import { endpoints } from '../util/Constants';
 import http from '../util/http';
 
-// TODO: move this somewhere useful
-type AuthToken = string;
-
 export default class NamespaceManager {
 
     /**
-     * @param {string} namespace - the desired namespace that you want to register with x0
+     * @param namespace - the desired namespace that you want to register with x0
      * @description create a new namespace
-     * @returns {string} the token for the namespace that was registered, or a callback if specified
+     * @returns the token for the namespace that was registered, or a callback if specified
      */
-    static async create(namespace: string): Promise<string | undefined> {
+    static async create(namespace: string, token?: AuthToken): Promise<Namespace | undefined> { 
         try {
-            return (await http.post('', endpoints.Namespace.replace("%%namespace%%", namespace))).token;
+            return new Namespace({ 
+                name: namespace, 
+                // if the user already has a namespace and they pass in their token as well, we dont register a new namespace
+                token: token ? token : (await http.post('', endpoints.Namespace.replace("%%namespace%%", namespace))).token
+            }) 
         } catch (e) {
             errorHandler(e);
         }
