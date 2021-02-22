@@ -1,6 +1,6 @@
 /**
  * @file http.ts
- * @fileoverview http request method(s), kindly stolen from https://github.com/rednit-team/tinder.js
+ * @fileoverview http request methods, kindly stolen from https://github.com/rednit-team/tinder.js
  */
 
 // @ts-ignore
@@ -8,12 +8,10 @@ import c from '@aero/centra';
 import { endpoints } from './Constants';
 
 const headers = {
-	'User-agent': 'x0js/"https://github.com/x0tf/x0js"',
 	'Authorization': ''
 };
 
 const req = async (token: string | null, route: string, method: string, body?: any): Promise<any> => {
-	console.log(route)
 	// we are using the start variable to measure the response time
 	const start = Date.now();
 	const URL = endpoints.ApiBaseUrl + route;
@@ -21,25 +19,27 @@ const req = async (token: string | null, route: string, method: string, body?: a
 	headers['Authorization'] = `Bearer ${token}`
 	fetch.reqHeaders = headers;
 	const res = await fetch.body(body).send();
-	console.log(res)
 	if (res.statusCode >= 200 && res.statusCode < 300) {
 		try {
-			if (token === 'ping') {
-				let p = res.json;
+			try {
+				const p = res.json;
 				p['responseTime'] = Date.now() - start
 				return p;
+			} catch (e) {
+				return res.json;
 			}
-			return res.json;
 		} catch (e) {
 			return { status: res.statusCode };
 		}
 	} else if (res.statusCode >= 400 && res.statusCode < 500) {
 		throw res.text;
-	} else {
-		console.log(`reattempting, status code: ${res.statusCode}`);
-		// TODO: find a better way to do this
-		return await req(token, route, method, body);
-	}
+	} 
+	// FIXME
+	// else {
+	// 	// console.log(`reattempting, status code: ${res.statusCode}`);
+	// 	// TODO: find a better way to do this
+	// 	return await req(token, route, method, body);
+	// }
 };
 
 const get = async (token: string | null, route: string) => await req(token, route, 'GET');
@@ -49,7 +49,9 @@ const post = async (token: string, route: string, body?: any) => await req(token
 // not needed at the moment
 // const put = async (token: string, route: string, body: any) => await req(token, route, 'PUT', body);
 
-const del = async (token: string, route: string) => await req(token, route, 'DELETE');
+const del = async (token: string, route: string) => await c(endpoints.ApiBaseUrl + route, 'DELETE').header('Authorization', `Bearer ${token}`).send();
+
+
 
 export default {
 	get,

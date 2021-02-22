@@ -1,7 +1,7 @@
-import { ElementType } from './../@interfaces/ElementType';
-import { endpoints } from './../util/Constants';
-import { AuthToken } from './../@interfaces/AuthToken';
-import { errorHandler } from './../util/errors';
+import { ElementType } from '../@interfaces/ElementType';
+import { endpoints } from '../util/Constants';
+import { AuthToken } from '../@interfaces/AuthToken';
+import { errorHandler } from '../util/errors';
 import http from '../util/http';
 import { Element } from '../@interfaces/Element';
 

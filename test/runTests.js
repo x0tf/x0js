@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { checkIfRedirect } = require('./util');
+const { checkIfRedirect } = require('./testUtils');
 const { Client } = require('../dist/index');
 const { x0ApiError } = require('../dist/util/errors');
 const x0 = new Client;

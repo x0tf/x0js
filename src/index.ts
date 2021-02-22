@@ -1,27 +1,21 @@
-import NamespaceManager from './elements/NamespaceManager';
-import RedirectManager from './elements/RedirectManager';
-import PasteManager from "./elements/PasteManager";
+import NamespaceManager from './managers/NamespaceManager';
+import ElementManager from './managers/ElementManager';
 import {AuthToken} from "./@interfaces/AuthToken";
 import {endpoints} from "./util/Constants";
 import {errorHandler} from "./util/errors";
 import http from "./util/http";
-import ElementManager from './elements/ElementManager';
 
 export class Client {
 
     deleteElement: (token: AuthToken, namespace: string, key: string) => Promise<boolean>;
-    serverInfo: () => Promise<any>; 
-    // namespace: typeof NamespaceManager;
-    // redirect: typeof RedirectManager;
-    // paste: typeof  PasteManager;
+    namespace: typeof NamespaceManager;
     elements: typeof ElementManager;
+    serverInfo: () => Promise<any>; 
 
    
     constructor() {
-        // this.paste = PasteManager;
-        // this.redirect = RedirectManager;
-        // this.namespace = NamespaceManager;
         this.elements = ElementManager;
+        this.namespace = NamespaceManager;
         this.serverInfo = () => Client.serverInfo();
         this.deleteElement = (token: AuthToken, namespace: string, key: string) => Client.deleteElement(token, namespace, key);
     }
@@ -35,11 +29,8 @@ export class Client {
      */
     static async deleteElement(token: AuthToken, namespace: string, key: string): Promise<boolean> {
         try {
-            const res = await http.delete(token, endpoints.Element.replace("%%namespace%%", namespace).replace("%%key%%", key));
-            console.log(res);
-            return true;
+            return (await http.delete(token, endpoints.Element.replace("%%namespace%%", namespace).replace("%%key%%", key))).statusCode === 200;
         } catch (e) {
-            console.log(e)
             errorHandler(e)
             return false;
         }
@@ -58,8 +49,8 @@ export class Client {
      */
     static async serverInfo(): Promise<JSON | undefined> {
         try {
-            // I'm just passing ping as a string cause that will give us the response time as well
-            return await http.get('ping', endpoints.Info);
+            // We are just passing null as first parameter cause we dont need a token for this route
+            return await http.get(null, endpoints.Info);
         } catch (e) {
             errorHandler(e);
         }
