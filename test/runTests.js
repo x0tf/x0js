@@ -1,19 +1,17 @@
 const { expect } = require('chai');
-const { checkIfRedirect } = require('./testUtils');
+const { checkIfRedirect, checkIfPaste } = require('./testUtils');
 const { Client } = require('../dist/index');
 const { Element } = require('../dist/@interfaces/Element');
 const x0 = new Client;
 
+let token;
+let pasteelement;
+let redirectelement;
 
-describe('x0jsunittest', () => {
-  
-  
-  let token;
-  let redirectelement;
-  const namespace = 'x0jsunittest002'
-  
+const namespace = 'x0jsunittest012'
 
 
+describe('x0js Unit Tests', () => {
 
     it('The serverInfo() method should return an object with the keys: invites, production, version; where production is true', async () => {
       expect(await x0.serverInfo()).to.have.property('production').that.is.true;
@@ -46,30 +44,21 @@ describe('x0jsunittest', () => {
         elementtype: 'redirect',
         namespace,
         data: 'https://github.com/x0tf/',
-        key: 'jsx0testredirect'
+        key: 'xjstestredirect'
       })
       redirectelement = newRedirectElement;
-      console.log(`
-        ===============[CONSOLE OUPUT]===============
-      `)
-
-      console.log(newRedirectElement)
-      
-      console.log(`
-        ===============[CONSOLE OUPUT]===============
-      `)
       expect(newRedirectElement).to.be.instanceOf(Element);
     })
-
+    
+    
     it('Check if redirect was created properly, by requesting the link and checking the status code.', async () => {
-      expect(await checkIfRedirect(namespace, 'jsx0testredirect')).to.be.true;
+      expect((await checkIfRedirect(namespace, 'xjstestredirect'))).to.be.true;
     })
+
 
     it('Delete the previously created redirect elemnt "jsx0testredirect"', async () => {
       expect(await redirectelement.delete(token)).to.be.true;
     })
-
-
 
     it('Deleting namespace should return true.', async () => {
       expect(await x0.namespace.delete(token, namespace))

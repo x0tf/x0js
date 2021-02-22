@@ -1,9 +1,9 @@
 import { ElementType } from './../@interfaces/ElementType';
-import { endpoints } from '../util/Constants';
 import { AuthToken } from '../@interfaces/AuthToken';
+import { Element } from '../@interfaces/Element';
+import { endpoints } from '../util/Constants';
 import { errorHandler } from '../util/errors';
 import http from '../util/http';
-import { Element } from '../@interfaces/Element';
 
 
 export default class ElementManager {
@@ -46,7 +46,8 @@ export default class ElementManager {
     {
         try {
             if (elementtype === 0) elementtype = 'paste' 
-                else if (elementtype === 1) elementtype = 'redirect'; 
+                else if (elementtype === 1) elementtype = 'redirect'
+                    else elementtype = elementtype; 
             let route = endpoints.CreateElement.replace("%%namespace%%", namespace).replace('%%element%%', elementtype)
             key ? route = route.replace("%%key%%", key) : route = route.replace("%%key%%", "")
             let requestBody = {}
