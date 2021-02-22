@@ -1,5 +1,7 @@
 # x0js
 
+A small nodejs client for interacting with the [x0](https://x0.tf/) API.
+
 [![Test](https://github.com/x0tf/x0js/actions/workflows/test.yml/badge.svg)](https://github.com/x0tf/x0js/actions/workflows/test.yml)
 
 ## Getting started
