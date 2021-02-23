@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/x0tf/x0js/compare/v2.0.0...v2.1.0) (2021-02-23)
+
+
+### Features
+
+* **namespace:** add namespace class ([f5bd55b](https://github.com/x0tf/x0js/commit/f5bd55b36c6537389fc393d6c77306205fb24eab))
+
 ## 2.0.0 (2021-02-22)
 
 
