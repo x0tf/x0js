@@ -10,5 +10,7 @@ export const errorHandler = (e: any) => {
         JSON.parse(e).messages.forEach((message: string) => {
             throw new x0ApiError(message);
         });
+    } else {
+        throw new Error(e);
     }
 };

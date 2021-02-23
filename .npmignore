@@ -1,5 +1,7 @@
 .idea
 .nyc_output
+workflows
+docs
 coverage
 node_modules
 index.js

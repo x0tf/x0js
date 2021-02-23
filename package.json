@@ -1,6 +1,6 @@
 {
   "name": "x0js",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist",
@@ -10,7 +10,8 @@
     "cov": "nyc mocha",
     "release": "standard-version",
     "commit": "cz",
-    "build": "tsc"
+    "build": "tsc",
+    "docs": "npx typedoc"
   },
   "config": {
     "commitizen": {
@@ -44,6 +45,7 @@
     "mocha": "^8.3.0",
     "nyc": "^15.1.0",
     "standard-version": "^9.1.1",
+    "typedoc": "^0.20.28",
     "typescript": "^4.1.5"
   }
 }

@@ -6,7 +6,7 @@ import { errorHandler } from '../util/errors';
 import http from '../util/http';
 
 
-export default class ElementManager {
+export class ElementManager {
     
     /**
      * @description gets the specified element and returns a new Element class
