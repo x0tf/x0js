@@ -1,12 +1,10 @@
-import ElementManager from "../managers/ElementManager";
-import NamespaceManager from "../managers/NamespaceManager";
+import { ElementManager } from "../managers/ElementManager";
+import { NamespaceManager } from "../managers/NamespaceManager";
 import { AuthToken } from "./AuthToken";
 import { Element } from "./Element";
 import { ElementType } from "./ElementType";
 
-// idea: instantiate elementmanager in here so you can create a new namespace and run all methods without havin to pass in the token
-
-export default class Namespace {
+export class Namespace {
     
     name: string;
     private token: string;

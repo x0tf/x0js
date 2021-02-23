@@ -1,15 +1,16 @@
-import NamespaceManager from './managers/NamespaceManager';
-import ElementManager from './managers/ElementManager';
+import { NamespaceManager } from './managers/NamespaceManager';
+import { ElementManager } from './managers/ElementManager';
 import {AuthToken} from "./@interfaces/AuthToken";
 import {endpoints} from "./util/Constants";
-import {errorHandler} from "./util/errors";
+import {errorHandler, x0ApiError} from "./util/errors";
 import http from "./util/http";
 
 export class Client {
 
-    deleteElement: (token: AuthToken, namespace: string, key: string) => Promise<boolean>;
+    deleteElement: (token: AuthToken, namespace: string, key: string) => Promise<boolean | x0ApiError>;
     namespace: typeof NamespaceManager;
     elements: typeof ElementManager;
+    
     serverInfo: () => Promise<any>; 
 
    
@@ -27,8 +28,9 @@ export class Client {
      * @param namespace 
      * @param key 
      */
-    static async deleteElement(token: AuthToken, namespace: string, key: string): Promise<boolean> {
+    static async deleteElement(token: AuthToken, namespace: string, key: string): Promise<boolean | x0ApiError> {
         try {
+            if (!token) return new x0ApiError('This route requires a token.')
             return (await http.delete(token, endpoints.Element.replace("%%namespace%%", namespace).replace("%%key%%", key))).statusCode === 200;
         } catch (e) {
             errorHandler(e)
@@ -58,3 +60,8 @@ export class Client {
     
 
 }
+
+import { Namespace } from './@interfaces/Namespace';
+import { Element } from './@interfaces/Element';
+export { Namespace };
+export { Element };

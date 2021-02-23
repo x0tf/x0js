@@ -1,11 +1,11 @@
 import { AuthToken } from "../@interfaces/AuthToken";
-import Namespace from "../@interfaces/Namespace";
+import { Namespace } from "../@interfaces/Namespace";
 import { Element } from "../@interfaces/Element";
 import { errorHandler } from '../util/errors';
 import { endpoints } from '../util/Constants';
 import http from '../util/http';
 
-export default class NamespaceManager {
+export class NamespaceManager {
 
     /**
      * @param namespace - the desired namespace that you want to register with x0
