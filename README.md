@@ -1,6 +1,6 @@
 # x0js
 
-A small nodejs client for interacting with the [x0](https://x0.tf/) API.
+A small nodejs client for interacting with the [x0](https://x0.tf/) API. [Read the full Documentation.](https://x0tf.github.io/x0js/)
 
 [![Test](https://github.com/x0tf/x0js/actions/workflows/test.yml/badge.svg)](https://github.com/x0tf/x0js/actions/workflows/test.yml)
 
@@ -122,3 +122,5 @@ Output:
 }
 */
 ```
+
+[Read the full Documentation.](https://x0tf.github.io/x0js/)
